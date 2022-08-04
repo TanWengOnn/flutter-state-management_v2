@@ -28,52 +28,57 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text("Counter"),
       ),
-      body: Column(
+      body: ListView(
         children: [
-          BlocBuilder<CounterCubits, Map>(
-            bloc: cubit,
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    TextField(
-                      keyboardType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                      controller: inputController,
-                    ),
-                    Text("${state["num1"]}", textScaleFactor: 5,),
-                    ElevatedButton(onPressed: () {
-                      cubit.increment();
-                    }, child: Text("Increment")
-                    ),
-                    ElevatedButton(onPressed: () {
-                      cubit.decrement();
-                    }, child: Text("Decrement")
-                    ),
-                    ElevatedButton(onPressed: () {
-                      cubit.reset();
-                    }, child: Text("Reset")
-                    ),
-                    ElevatedButton(onPressed: () {
-                      if(inputController.text != ""){
-                        Navigator.pushNamed(context, '/calculator-page');
-                        cubit.inputValue(inputController.text);
-                        cubit.multiply("multiply");
-                      }
-                    }, child: Text("Multiply")
-                    ),
-                    ElevatedButton(onPressed: () {
-                      if(inputController.text != ""){
-                        Navigator.pushNamed(context, '/calculator-page');
-                        cubit.inputValue(inputController.text);
-                        cubit.divide("divide");
-                      }
-                    }, child: Text("Divide")
-                    ),
-                  ],
-                );
-              },
-          )
-        ],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              BlocBuilder<CounterCubits, Map>(
+                bloc: cubit,
+                builder: (context, state) {
+                  return Column(
+                    children: [
+                      TextField(
+                        keyboardType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                        controller: inputController,
+                      ),
+                      Text("${state["num1"]}", textScaleFactor: 5,),
+                      ElevatedButton(onPressed: () {
+                        cubit.increment();
+                      }, child: Text("Increment")
+                      ),
+                      ElevatedButton(onPressed: () {
+                        cubit.decrement();
+                      }, child: Text("Decrement")
+                      ),
+                      ElevatedButton(onPressed: () {
+                        cubit.reset();
+                      }, child: Text("Reset")
+                      ),
+                      ElevatedButton(onPressed: () {
+                        if(inputController.text != ""){
+                          Navigator.pushNamed(context, '/calculator-page');
+                          cubit.inputValue(inputController.text);
+                          cubit.multiply("multiply");
+                        }
+                      }, child: Text("Multiply")
+                      ),
+                      ElevatedButton(onPressed: () {
+                        if(inputController.text != ""){
+                          Navigator.pushNamed(context, '/calculator-page');
+                          cubit.inputValue(inputController.text);
+                          cubit.divide("divide");
+                        }
+                      }, child: Text("Divide")
+                      ),
+                    ],
+                  );
+                },
+              )
+            ],
+          ),
+        ]
       ),
     );
   }

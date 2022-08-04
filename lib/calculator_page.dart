@@ -12,6 +12,7 @@ class Calculator extends StatelessWidget {
         title: Text("Calculator"),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           BlocBuilder<CounterCubits, Map>(
               builder: (context, state) {
