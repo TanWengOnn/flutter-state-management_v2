@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:bloc_cubit/counter_cubit.dart';
+import 'package:bloc_cubit/counter_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
@@ -33,7 +36,7 @@ class _HomePageState extends State<HomePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              BlocBuilder<CounterCubits, Map>(
+              BlocBuilder<CounterCubits, CounterState>(
                 bloc: cubit,
                 builder: (context, state) {
                   return Column(
@@ -43,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                         inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                         controller: inputController,
                       ),
-                      Text("${state["num1"]}", textScaleFactor: 5,),
+                      Text("${state.data.firstOperand}", textScaleFactor: 5,),
                       ElevatedButton(onPressed: () {
                         cubit.increment();
                       }, child: Text("Increment")
@@ -57,18 +60,18 @@ class _HomePageState extends State<HomePage> {
                       }, child: Text("Reset")
                       ),
                       ElevatedButton(onPressed: () {
-                        if(inputController.text != ""){
+                        if(inputController.text.isNotEmpty){
                           Navigator.pushNamed(context, '/calculator-page');
-                          cubit.inputValue(inputController.text);
-                          cubit.multiply("multiply");
+                          cubit.inputValue(double.parse(inputController.text));
+                          cubit.multiply();
                         }
                       }, child: Text("Multiply")
                       ),
                       ElevatedButton(onPressed: () {
                         if(inputController.text != ""){
                           Navigator.pushNamed(context, '/calculator-page');
-                          cubit.inputValue(inputController.text);
-                          cubit.divide("divide");
+                          cubit.inputValue(double.parse(inputController.text));
+                          cubit.divide();
                         }
                       }, child: Text("Divide")
                       ),

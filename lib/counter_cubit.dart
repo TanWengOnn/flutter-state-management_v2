@@ -1,32 +1,58 @@
+import 'package:bloc_cubit/counter_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CounterCubits extends Cubit<Map> {
-  CounterCubits() : super({"num1": 0, "num2": "", "answer": 0,"type": ""});
+class CounterCubits extends Cubit<CounterState> {
+  CounterCubits() : super(Initial());
 
   void increment() {
-    state["num1"] = state["num1"] + 1;
-    emit({"num1":state["num1"], "num2": state["num2"], "answer": 0, "type": ""});
+    emit(Increment(
+      state.data.firstOperand + 1,
+      state.data.secondOperand,
+      state.data.result,
+    ));
   }
+
   void decrement() {
-    state["num1"] = state["num1"] - 1;
-    emit({"num1":state["num1"], "num2": state["num2"], "answer": 0, "type": ""});
+    emit(Decrement(
+      state.data.firstOperand - 1,
+      state.data.secondOperand,
+      state.data.result,
+    ));
   }
+
   void reset() {
-    state["num1"] = 0;
-    emit({"num1":state["num1"], "num2": state["num2"], "answer": 0, "type": ""});
+    emit(Initial());
   }
 
   void inputValue(value) {
-    emit({"num1":state["num1"], "num2": value, "answer": 0, "type": ""});
+    emit(FillSecondOperand(state.data.firstOperand, value, 0));
   }
 
-  void multiply(type) {
-    state["answer"] = state["num1"]*int.parse(state["num2"]);
-    emit({"num1":state["num1"], "num2": state["num2"], "answer": state["answer"], "type": type});
+  void multiply() {
+    emit(Multily(
+      state.data.firstOperand,
+      state.data.secondOperand,
+      state.data.firstOperand * state.data.secondOperand,
+    ));
   }
 
-  void divide(type) {
-    state["answer"] = state["num1"]/int.parse(state["num2"]);
-    emit({"num1":state["num1"], "num2": state["num2"], "answer": state["answer"], "type": type});
+  void divide() {
+    emit(Divide(
+      state.data.firstOperand,
+      state.data.secondOperand,
+      state.data.firstOperand / state.data.secondOperand,
+    ));
+  }
+
+  String getOperator() {
+    if (state is Divide) {
+      return '/';
+    }
+
+    if (state is Multily) {
+      return '*';
+    }
+
+    return '';
   }
 }

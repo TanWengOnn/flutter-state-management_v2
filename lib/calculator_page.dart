@@ -1,3 +1,4 @@
+import 'package:bloc_cubit/counter_state.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc_cubit/counter_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,16 +15,16 @@ class Calculator extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          BlocBuilder<CounterCubits, Map>(
+          BlocBuilder<CounterCubits, CounterState>(
               builder: (context, state) {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("${state["num1"]}", textScaleFactor: 5,),
-                    Text("${state["num2"]}", textScaleFactor: 5,),
+                    Text("${state.data.firstOperand}", textScaleFactor: 5,),
+                    Text("${state.data.secondOperand}", textScaleFactor: 5,),
                     CircleAvatar(
                       radius: 40,
-                      child: Text("${state["type"] == "multiply" ? "X" : "/"}", textScaleFactor: 2,)
+                      child: Text("${BlocProvider.of<CounterCubits>(context).getOperator()}", textScaleFactor: 2,)
                     ),
                     Divider(
                       color: Colors.black,
@@ -31,7 +32,7 @@ class Calculator extends StatelessWidget {
                       endIndent: 20,
                       indent: 20,
                     ),
-                    Text("${state["answer"]}", textScaleFactor: 5,),
+                    Text("${state.data.result}", textScaleFactor: 5,),
                   ],
                 );
               },
